@@ -1,3 +1,6 @@
+import React from "react";
+import {createRoot} from "react-dom/client";
+
 const Pet = (props) => {
   return React.createElement("div", {}, [
     React.createElement("h1", {}, props.name),
@@ -30,6 +33,6 @@ const App = () => {
 // Getting the root DOM context
 const container = document.getElementById("root");
 // passing root context to react
-const root = ReactDOM.createRoot(container);
+const root = createRoot(container);
 // rendering the component
 root.render(React.createElement(App));
