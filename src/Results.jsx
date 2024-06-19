@@ -11,6 +11,7 @@ const Results = ({ pet }) => {
           name={"Poke " + pet.name}
           animal="pokemon"
           baseExperience={pet.base_experience}
+          id={pet.id}
         />
       )}
     </div>

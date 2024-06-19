@@ -1,10 +1,19 @@
-const Pet = (props) => {
+import { Link } from "react-router-dom";
+const Pet = ({ name, animal, baseExperience, id }) => {
+  let hero = "http://pets-images.dev-apis.com/pets/none.jpg";
+
   return (
-    <div>
-      <h1> Name: {props.name} </h1>
-      <h2> Animal: {props.animal} </h2>
-      <h2> base experience: {props.baseExperience} </h2>
-    </div>
+    <Link to={`/details/${id}`}>
+      <div className="image-container">
+        <img src={hero} alt={name} />
+      </div>
+      <div className="info">
+        <h1> {name} </h1>
+        <h2>
+          {animal} - base experience: {baseExperience}
+        </h2>
+      </div>
+    </Link>
   );
 };
 
