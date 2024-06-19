@@ -1,20 +1,13 @@
 import { useState, useEffect } from "react";
 import Pet from "./Pet";
-
-const ANIMALS = ["bird", "cat", "dog", "reptile"];
+import useNameList from "./useNameList";
 
 const SearchParams = () => {
   const [location, setLocation] = useState("Bogota, D.C.");
-  const [animal, setAnimal] = useState("");
+  const [limit, setLimit] = useState(3);
   const [name, setName] = useState("bulbasaur");
   const [pokemon, setPokemon] = useState([]);
-  const names = [
-    "bulbasaur",
-    "ivysaur",
-    "venusaur",
-    "charmander",
-    "charmeleon",
-  ];
+  const [names, status] = useNameList(limit);
 
   useEffect(() => {
     requestPokemon();
@@ -26,8 +19,10 @@ const SearchParams = () => {
     const data = await res.json();
     setPokemon(data);
   }
-  console.log("Pokemon from api");
-  console.log(pokemon);
+
+  console.log("### LOG Status");
+  console.log(status);
+  console.log("end");
 
   return (
     <div className="search-params">
@@ -46,18 +41,14 @@ const SearchParams = () => {
             placeholder="type your location"
           />
         </label>
-        <label htmlFor="animal">
-          Animal
-          <select
-            id="animal"
-            value={animal}
-            onChange={(e) => setAnimal(e.target.value)}
-            onBlur={(e) => setName(e.target.value)}
-          >
-            {ANIMALS.map((animal) => (
-              <option key={animal}>{animal}</option>
-            ))}
-          </select>
+        <label htmlFor="limit">
+          limit
+          <input
+            onChange={(e) => setLimit(e.target.value)}
+            id="limit"
+            value={limit}
+            placeholder="type a limit"
+          />
         </label>
         <label htmlFor="name">
           name
@@ -67,8 +58,8 @@ const SearchParams = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           >
-            {names.map((name) => (
-              <option key={name}>{name}</option>
+            {names.map((pokemon) => (
+              <option key={pokemon.name}>{pokemon.name}</option>
             ))}
           </select>
         </label>
