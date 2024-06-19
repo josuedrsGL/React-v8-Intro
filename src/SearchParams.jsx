@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import Pet from "./Pet";
+// import Pet from "./Pet";
+import Results from "./Results";
 import useNameList from "./useNameList";
 
 const SearchParams = () => {
@@ -28,7 +29,7 @@ const SearchParams = () => {
     <div className="search-params">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
+          e.preventDefault(); //avoid the refresh
           requestPokemon();
         }}
       >
@@ -65,14 +66,7 @@ const SearchParams = () => {
         </label>
         <button>submit</button>
       </form>
-      {
-        <Pet
-          key={pokemon.id}
-          name={"Poke " + pokemon.name}
-          animal="pokemon"
-          baseExperience={pokemon.base_experience}
-        />
-      }
+      {<Results pet={pokemon} />}
     </div>
   );
 };
