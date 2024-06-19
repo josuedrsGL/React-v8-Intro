@@ -1,9 +1,9 @@
 const Pet = (props) => {
   return (
     <div>
-      <h1> {props.name} </h1>
-      <h2> {props.animal} </h2>
-      <h2> {props.name} </h2>
+      <h1> Name: {props.name} </h1>
+      <h2> Animal: {props.animal} </h2>
+      <h2> base experience: {props.baseExperience} </h2>
     </div>
   );
 };
