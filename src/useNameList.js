@@ -1,32 +1,8 @@
-import { useState, useEffect } from "react";
-
-const localCache = {};
+import { useQuery } from "@tanstack/react-query";
+import fetchPokemonList from "./fetchPokemonList";
 
 export default function useNameList(limit) {
-  const [nameList, setNameList] = useState([]);
-  const [status, setStatus] = useState("unloaded");
+  const results = useQuery(["pokemon_list", limit], fetchPokemonList);
 
-  useEffect(() => {
-    if (!limit) {
-      setNameList([]);
-    } else if (localCache[limit]) {
-      setNameList(localCache[limit]);
-    } else {
-      requestNameList();
-    }
-    async function requestNameList() {
-      setNameList([]);
-      setStatus("loading");
-
-      const res = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=0`
-      );
-
-      const data = await res.json();
-      localCache[limit] = data.results || [];
-      setNameList(data.results);
-      setStatus("loaded");
-    }
-  }, [limit]);
-  return [nameList, status];
+  return [results?.data?.results ?? [], results.status];
 }

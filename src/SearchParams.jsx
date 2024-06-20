@@ -1,28 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // import Pet from "./Pet";
 import Results from "./Results";
 import useNameList from "./useNameList";
+import { useQuery } from "@tanstack/react-query";
+import fetchPokemon from "./fetchSearchPokemon";
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("Bogota, D.C.");
+  const [reqParams, setReqParams] = useState({
+    name: "",
+  });
   const [limit, setLimit] = useState(3);
-  const [name, setName] = useState("bulbasaur");
-  const [pokemon, setPokemon] = useState([]);
   const [names, status] = useNameList(limit);
-
-  useEffect(() => {
-    requestPokemon();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function requestPokemon() {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-    const data = await res.json();
-    setPokemon(data);
-  }
+  const result = useQuery(["search", reqParams], fetchPokemon);
+  const pokemon = result?.data ?? {};
 
   console.log("### LOG Status");
   console.log(status);
+  console.log(pokemon);
   console.log("end");
 
   return (
@@ -30,35 +24,25 @@ const SearchParams = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault(); //avoid the refresh
-          requestPokemon();
+          const formData = new FormData(e.target);
+          const obj = {
+            name: formData.get("name") ?? "",
+          };
+          setReqParams(obj);
         }}
       >
-        <label htmlFor="location">
-          Location
-          <input
-            onChange={(e) => setLocation(e.target.value)}
-            id="location"
-            value={location}
-            placeholder="type your location"
-          />
-        </label>
         <label htmlFor="limit">
           limit
           <input
-            onChange={(e) => setLimit(e.target.value)}
             id="limit"
             value={limit}
             placeholder="type a limit"
+            onChange={(e) => setLimit(e.target.value)}
           />
         </label>
         <label htmlFor="name">
           name
-          <select
-            id="name"
-            disabled={name.length === 0}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          >
+          <select id="name" disabled={names.length === 0} name="name">
             {names.map((pokemon) => (
               <option key={pokemon.name}>{pokemon.name}</option>
             ))}
