@@ -37,7 +37,7 @@ const Details = () => {
 // We have to implements in this way for cover the entire component "details"
 function DetailsErrorBoundary(props) {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary errorComponent={<h2>something went wrong, i'm sorry</h2>}>
       <Details {...props} />
     </ErrorBoundary>
   );
