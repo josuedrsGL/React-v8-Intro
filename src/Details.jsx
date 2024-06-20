@@ -1,3 +1,5 @@
+import { useState } from "react";
+import Modal from "./Modal";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import fetchPet from "./fetchPet";
@@ -5,6 +7,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import Demo from "./Demo";
 
 const Details = () => {
+  const [showModal, setShowModal] = useState(false);
   const { id } = useParams(); //with this we can use the params passed in the url from router directly in my component
   const results = useQuery(["details", id], fetchPet); //if you don't have id in details, make a fetch
 
@@ -15,7 +18,7 @@ const Details = () => {
       </div>
     );
   }
-
+  console.log(showModal);
   const pet = results.data;
 
   return (
@@ -25,9 +28,20 @@ const Details = () => {
         <h2>
           weight: {pet.weight} Height: {pet.height} Order: {pet.order}
         </h2>
-        <button>Adopt {pet.name}</button>
+        <button onClick={() => setShowModal(true)}>Adopt me {pet.name}</button>
         <p>Location area encounters: {pet.location_area_encounters}</p>
         <Demo />
+        {showModal ? (
+          <Modal>
+            <div>
+              <h1>Are you serious to become a master pokemon?</h1>
+              <div>
+                <button>Yes</button>
+                <button onClick={() => setShowModal(false)}>No</button>
+              </div>
+            </div>
+          </Modal>
+        ) : null}
       </div>
     </div>
   );

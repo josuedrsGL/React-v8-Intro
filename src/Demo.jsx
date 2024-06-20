@@ -1,5 +1,5 @@
 const Demo = () => {
-  throwError();
+  //   throwError();
   return (
     <div>
       <h1> Simulate a component</h1>
