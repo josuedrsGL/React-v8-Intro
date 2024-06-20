@@ -8,6 +8,6 @@ const Demo = () => {
 };
 export default Demo;
 
-function throwError() {
-  throw new Error("It was an error");
-}
+// function throwError() {
+//   throw new Error("It was an error");
+// }

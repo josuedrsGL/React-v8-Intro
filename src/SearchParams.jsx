@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 // import Pet from "./Pet";
 import Results from "./Results";
 import useNameList from "./useNameList";
 import { useQuery } from "@tanstack/react-query";
 import fetchPokemon from "./fetchSearchPokemon";
+import AdoptedPetContext from "./AdoptedPetContext";
 
 const SearchParams = () => {
+  const [adoptedPet] = useContext(AdoptedPetContext);
   const [reqParams, setReqParams] = useState({
     name: "",
   });
@@ -31,6 +33,11 @@ const SearchParams = () => {
           setReqParams(obj);
         }}
       >
+        {adoptedPet ? (
+          <div className="pet image-container">
+            <img src="" alt={`pet ${adoptedPet.name}`} />
+          </div>
+        ) : null}
         <label htmlFor="limit">
           limit
           <input
